@@ -54,4 +54,41 @@
       </nav>
     </footer>
   </body>
+  <script>
+    // Listens for the page content to be loaded
+    window.addEventListener("DOMContentLoaded", function(e) {
+
+      // Selects every button on the page by its data-attribute, adds it to the order buttons variable
+      const orderButtons = document.querySelectorAll("button[data-order]");
+
+      // Loops through each buton so we can work with each button individually
+      orderButtons.forEach(function(button) {
+        
+        // Listens for a click on each button
+        button.addEventListener("click", function(e) {
+
+          // Saves the button that is clicked as a target to reference later
+          const button =  e.currentTarget;
+          // Saves the button's parent container to get all the infomration about the user's selection
+          const container =  button.parentNode;
+
+          // Creates an order upject literal to get each item in the parent container
+          const order = {
+            id: button.getAttribute("data-order"),
+            title: container.querySelector(".title").innerText,
+            price: container.querySelector(".price").innerText,
+            desc: container.querySelector(".desc").innerText
+          }
+
+          // Save object to local starage for use later
+          localStorage.setItem("order", JSON.stringify(order));
+
+          // Forward user to the order page
+          const url = window.location.href.replace("pies.html", "order.html");
+          window.location.href = url;
+        });
+
+      }); 
+    });
+  </script>
 </html>
