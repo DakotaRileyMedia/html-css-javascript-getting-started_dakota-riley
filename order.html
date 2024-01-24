@@ -172,6 +172,38 @@
     </footer>
   </body>
   <script>
-    
+    // Listens for the page content to be loaded
+    window.addEventListener("DOMContentLoaded", function(e) {
+
+      // Get Pie Order information out of local storage
+      const order = localStorage.getItem("order");
+
+      // Checks to see if an order is loaded and runs the appropriate code if there is an order or not
+      if (order) {
+        
+        // Parses the saved pie order back into an opject to display the selected pie's info
+        const pieOrder = JSON.parse(order);
+
+        // Reference of the pie container to write the selected pie's info into
+        const pie = document.querySelector(".pie");
+
+        // References to where the selected pie's info will be written
+        const title = pie.querySelector(".title");
+        const price = pie.querySelector(".price");
+        const desc = pie.querySelector(".desc");
+
+        // Write selected pie's info to the appropriate container
+        title.innerText = pieOrder.title;
+        price.innerText = pieOrder.price;
+        desc.innerText = pieOrder.desc;
+
+        // References to the image for the selected pie
+        const img = pie.querySelector("img");
+
+        // Seting the src and alt attributes to the referenced image for the selected pie
+        img.setAttribute("src", `images/${pieOrder.id}.png`)
+        img.setAttribute("ald", pieOrder.title)
+      }
+    });
   </script>
 </html>
