@@ -69,6 +69,7 @@
         </div>
 
         <form action="https://localhost:7071/api/post" method="POST">
+          <input type="hidden" id="pie-order" name="pie-order">
 
           <div class="input-group">
             <div><label for="first-name">First name</label></div>
@@ -189,6 +190,12 @@
         
         // Parses the saved pie order back into an opject to display the selected pie's info
         const pieOrder = JSON.parse(order);
+
+        // References hidden input to save selected pie into to the order
+        const orderInput = document.querySelector("#pie-order");
+
+        // Saves the order to the hidden input
+        orderInput.value = order;
 
         // Reference of the pie container to write the selected pie's info into
         const pie = document.querySelector(".pie");
