@@ -70,6 +70,7 @@
 
         <form action="https://localhost:7071/api/post" method="POST">
           <input type="hidden" id="pie-order" name="pie-order">
+          <input type="hidden" id="location" name="location">
 
           <div class="input-group">
             <div><label for="first-name">First name</label></div>
@@ -182,6 +183,34 @@
     // Listens for the page content to be loaded
     window.addEventListener("DOMContentLoaded", function(e) {
 
+      // References hidden input for location to save the location with the Geoloaction API
+      let locationBox = document.querySelector("#location");
+
+      // Variable to hold latitude and longitude of the location from the Geolocation API
+      let location = {
+        latitude: "unknown",
+        longitude: "unknown"
+      };
+
+      // Prompts user for location 
+      window.navigator.geolocation.getCurrentPosition(
+        // Function for if a location is returned
+        function(position) {
+          // Sets the longitude and latitude from the location to our location variable
+          location = {
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude
+          };
+
+          // Serialize the location and add it to our form's invisible input
+          locationBox.value = JSON.stringify(location);
+        },
+        // Function for if a location is not returned
+        function(error) {
+          // Serialize the location and add it to our form's invisible input
+          locationBox.value = JSON.stringify(location);
+        });
+
       // Get Pie Order information out of local storage
       const order = localStorage.getItem("order");
 
@@ -191,7 +220,7 @@
         // Parses the saved pie order back into an opject to display the selected pie's info
         const pieOrder = JSON.parse(order);
 
-        // References hidden input to save selected pie into to the order
+        // References hidden input for pi-order to save selected pie into to the order
         const orderInput = document.querySelector("#pie-order");
 
         // Saves the order to the hidden input
@@ -214,8 +243,8 @@
         const img = pie.querySelector("img");
 
         // Seting the src and alt attributes to the referenced image for the selected pie
-        img.setAttribute("src", `images/${pieOrder.id}.png`)
-        img.setAttribute("ald", pieOrder.title)
+        img.setAttribute("src", `images/${pieOrder.id}.png`);
+        img.setAttribute("ald", pieOrder.title);
       }
     });
   </script>
